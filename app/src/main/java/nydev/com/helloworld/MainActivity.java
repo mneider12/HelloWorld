@@ -24,11 +24,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PlaceholderFragment(),"place_holder")
                     .commit();
         }
     }
-
+ 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,12 +56,12 @@ public class MainActivity extends ActionBarActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        setContentView(R.layout.activity_main);
-        TextView quoteText = (TextView) view.findViewById(R.id.quote);
+        PlaceholderFragment fragment = (PlaceholderFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.container);
         if (networkInfo != null && networkInfo.isConnected()) {
-            quoteText.setText("Connected");
+            fragment.setText("Connected");
         } else {
-            quoteText.setText("Not Connected");
+            fragment.setText("Not Connected");
         }
 
     }
@@ -79,6 +79,11 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
+        }
+
+        public void setText(String text) {
+            TextView quoteView = (TextView) getActivity().findViewById(R.id.quote);
+            quoteView.setText(text);
         }
 
     }
