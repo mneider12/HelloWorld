@@ -1,5 +1,8 @@
 package nydev.com.helloworld;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -48,6 +52,20 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void getQuote(View view) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(
+                Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        setContentView(R.layout.activity_main);
+        TextView quoteText = (TextView) view.findViewById(R.id.quote);
+        if (networkInfo != null && networkInfo.isConnected()) {
+            quoteText.setText("Connected");
+        } else {
+            quoteText.setText("Not Connected");
+        }
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -63,6 +81,5 @@ public class MainActivity extends ActionBarActivity {
             return rootView;
         }
 
-        
     }
 }
