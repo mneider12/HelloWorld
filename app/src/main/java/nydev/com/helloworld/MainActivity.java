@@ -3,10 +3,13 @@ package nydev.com.helloworld;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private static final String LOG_TAG = "hello_world_main";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +61,15 @@ public class MainActivity extends ActionBarActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        WifiManager wifiMgr = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+        String name = wifiInfo.getSSID();
         PlaceholderFragment fragment = (PlaceholderFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.container);
         if (networkInfo != null && networkInfo.isConnected()) {
-            fragment.setText("Connected");
+            fragment.setText(name);
         } else {
-            fragment.setText("Not Connected");
+            fragment.setText(name);
         }
 
     }
